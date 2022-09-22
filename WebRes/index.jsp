@@ -1,5 +1,5 @@
 <%@ page import="entity.UserData" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" session="false" language="java" %>
 <html>
   <head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/res/css/bootstrap.min.css" />
@@ -41,15 +41,14 @@
     <ul class="navbar-nav mr-4">
     <% UserData loginedUser = (UserData) request.getSession().getAttribute("loginedUser");
        if (loginedUser != null) {
+         if (loginedUser.getRole().contains("admin")) {
+           out.println("<li class=\"nav-item\"><a class=\"nav-link\" href=\""+ request.getContextPath() +"/forAdmin\">" +
+            "Администратор</a></li>");
+         }else{
+           out.println("<li class=\"nav-item\"><a class=\"nav-link\" href=\""+ request.getContextPath() +"/forManager\">" +
+           "Менеджер</a></li>");
+         }
          out.println("<li class=\"nav-item\">" +
-          "<a class=\"nav-link\" href=\""+ request.getContextPath() +"/forAdmin\">" +
-          "Администратор" +
-          "</a></li>" +
-          "<li class=\"nav-item\">" +
-          "<a class=\"nav-link\" href=\""+ request.getContextPath() +"/forManager\">" +
-          "Менеджер" +
-          "</a></li>" +
-          "<li class=\"nav-item\">" +
           "<a class=\"nav-link\" href=\""+ request.getContextPath() +"/getActs\">" +
           "Получить акты</a></li>" +
           "<li class=\"nav-item\">" +
@@ -58,17 +57,15 @@
                  "<li class=\"nav-item\">" +
                  "<a class=\"nav-link\" href=\""+ request.getContextPath() + "/logout\">" +
                  "Выйти" +
-                 "</a></li>");
+                 "</a></li>"+ System.lineSeparator() +
+         "<span class=\"usr-info\" style=\"color:#A500BF\">["+ loginedUser.getLogin() +"]</span>");
        }else{
-
          out.println("<li class=\"nav-item\">" +
           "<a class=\"nav-link\" href=\""+ request.getContextPath() +"/login\">" +
            "Войти" +
             "</a></li>");
        }
     %>
-        &nbsp;
-        <span class="usr-info" style="color:#A500BF">[ ${loginedUser.login} ]</span>
       </ul>
     </div>
   </nav>

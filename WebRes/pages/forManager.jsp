@@ -1,12 +1,14 @@
 <%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="entity.chUserData" %>
+<%@ page import="entity.UserData" %>
+<%@ page import="java.lang.ref.ReferenceQueue" %>
+<%@ page import="java.lang.ref.PhantomReference" %>
+<%@ page import="java.util.WeakHashMap" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <jsp:include page="/index.jsp"/>
+    <jsp:include page="../index.jsp"/>
 
 <div class="autoz">
     <%
-        chUserData changeUser = (chUserData) request.getAttribute("changeUser");
+        UserData changeUser = (UserData) request.getAttribute("changeUser");
         if (changeUser == null) {
             out.println("<div class=\"autoz-form\"><form method=\"post\">" +
                     "<div class=\"mb-3\"><label for=\"InputLogin\" class=\"form-label\">Логин пользователя</label>" +
@@ -20,12 +22,12 @@
                     "<button type=\"submit\" class=\"btn btn-success\">Найти</button></form></div>");
 
             if (changeUser.getLogin() != null) {
-                final Map<String, String> accessRoles = new HashMap<>();
+                final Map<String, String> accessRoles = new WeakHashMap<>();
                 accessRoles.put("manager","Менеджер");accessRoles.put("user","Пользователь");
                 //final String[] accessRoles  = {"admin","manager","user"};
                 final String[] beRoles  = {"wasd","wcnt","wdvs","wgsm","wkvk","wmgf","wsbr","wurl","wvlg"};
 
-                out.println("<div class=\"autoz-form\"><form method=\"post\"><b>Доступные роли:</b>");
+                out.println("<div class=\"autoz-form\"><form method=\"post\"><b>Доступные роли:</b><input type=\"text\" name=\"login\" hidden=\"true\" value=\"" + changeUser.getLogin() + "\">");
                 for (Map.Entry<String, String> item : accessRoles.entrySet()) {
                     if (!changeUser.getRole().contains(item.getKey())) {
                         out.println("<div class=\"mb-3\"><div class=\"form-check\"><input class=\"form-check-input\" type=\"radio\" id=\"" +
@@ -63,6 +65,10 @@
                 out.println("<button type=\"submit\" class=\"btn btn-success\">Найти</button></form></div>");
             }
         }
+        ReferenceQueue<UserData> ref = new ReferenceQueue<>();
+        PhantomReference<UserData> PhRef = new PhantomReference<>(changeUser,ref);
+        changeUser = null;
+        PhRef.clear();
         if (request.getAttribute("checkLogin") != null) {
             out.println("<div class=\"form-label\"><p>" + request.getAttribute("checkLogin") + "</p></div>");
         }

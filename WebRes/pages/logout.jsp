@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <jsp:include page="/index.jsp"/>
+    <jsp:include page="../index.jsp"/>
     <div class="autoz">
         <p>Совершен выход</p>
         <button class="btn btn-success" onclick="location.href='${pageContext.request.contextPath}/'">На главную</button>

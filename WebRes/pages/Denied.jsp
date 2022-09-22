@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <jsp:include page="/index.jsp"></jsp:include>
+    <jsp:include page="../index.jsp"></jsp:include>
     <div class="autoz">
         <p>Отсутствуют разрешения на промотр данной страницы</p>
         <button class="btn btn-success" onclick="location.href='${pageContext.request.contextPath}/'">На главную</button>

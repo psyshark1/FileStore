@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.lang.ref.PhantomReference;
+import java.lang.ref.ReferenceQueue;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Blob;
@@ -133,7 +135,12 @@ public class genericServlet extends HttpServlet {
             zipos.closeEntry();
         }
 
+        zipos.flush();
         zipos.close();
+        ReferenceQueue<ZipOutputStream> ref = new ReferenceQueue<>();
+        PhantomReference<ZipOutputStream> PhRef = new PhantomReference<>(zipos,ref);
+        zipos = null;
+        PhRef.clear();
 
         FileInputStream zipis = new FileInputStream(temp_zipname.toString());
         int size = zipis.available();

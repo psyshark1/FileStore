@@ -1,21 +1,17 @@
 package servlets;
 
 import entity.UserData;
-import entity.chUserData;
 import model.ModelUserData;
 import utils.appUtils;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Principal;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 @WebServlet(name = "forAdminServlet")
 public class forAdminServlet extends HttpServlet {
@@ -48,7 +44,7 @@ public class forAdminServlet extends HttpServlet {
             try {
                 assert mdl != null;
                 if (mdl.checkLogin(userName, false)) {
-                    chUserData changeUser = mdl.setchUserData(userName);
+                    UserData changeUser = mdl.setchUserData(userName);
 
                     request.setAttribute("changeUser",changeUser);
 
@@ -71,18 +67,17 @@ public class forAdminServlet extends HttpServlet {
         try {
             assert mdl != null;
 
-            chUserData changeUser = chUserData.getInstance();
+            UserData changeUser = new UserData();
 
-            mdl.updateUser(changeUser.getLogin(),accessRole,roles,block,appUtils.getLoginedUser(request.getSession()).getLogin());
+            mdl.updateUser(userName,accessRole,roles,block,appUtils.getLoginedUser(request.getSession()).getLogin());
 
-            //changeUser.destroy();
-            //changeUser.setLogin(userName);
             assert accessRole != null;
             StringBuilder chRoles = new StringBuilder(accessRole);
 
             for(String role : roles){
                 chRoles.append(",").append(role);
             }
+            changeUser.setLogin(userName);
             changeUser.setRole(chRoles.toString());
 
             if (block!=null) {

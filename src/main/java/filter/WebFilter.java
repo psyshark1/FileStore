@@ -24,8 +24,12 @@ public class WebFilter implements Filter {
         String servletPath = request.getServletPath();
         // Информация пользователя сохранена в Session
         // (После успешного входа в систему).
-        UserData loginedUser = appUtils.getLoginedUser(request.getSession());
-
+        UserData loginedUser;
+        if (!servletPath.equals("/index.jsp")) {
+            loginedUser = appUtils.getLoginedUser(request.getSession());
+        }else{
+            loginedUser = null;
+        }
         HttpServletRequest wrapRequest = request;
         if (loginedUser != null) {
 

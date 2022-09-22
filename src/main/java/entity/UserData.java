@@ -5,15 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UserData {
-    private static volatile UserData instance;
+    //private static volatile UserData instance;
     private String login;
     private String mail;
     private List<String> role = new ArrayList<>();
     private int active;
 
-    //public UserData(){}
+    public UserData(){}
 
-    public static UserData getInstance() {
+    /*public static UserData getInstance() {
         if (instance == null) {
             synchronized (UserData.class){
                 if (instance == null) {
@@ -22,7 +22,7 @@ public class UserData {
             }
         }
         return instance;
-    }
+    }*/
 
     public void setMail(String mail) {
         this.mail = mail;

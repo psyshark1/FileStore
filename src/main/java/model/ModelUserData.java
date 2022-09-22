@@ -2,7 +2,6 @@ package model;
 
 import database.Dbconn;
 import entity.UserData;
-import entity.chUserData;
 import props.Props;
 import utils.SecurityUtils;
 
@@ -18,7 +17,7 @@ public class ModelUserData{
     private final Dbconn db;
     private final Props props;
     private UserData user;
-    private chUserData chUser;
+    private UserData chUser;
     private final String userTable;
     public static final String[] bE  = {"wasd","wcnt","wdvs","wgsm","wkvk","wmgf","wsbr","wurl","wvlg"};
     //public static final String mailLogin;
@@ -41,8 +40,11 @@ public class ModelUserData{
         ResultSet recordset = db.Recordset(sql.toString());
         while (recordset.next()) {
 
-            if (user == null) user = UserData.getInstance();
-            user.destroy();
+            if (user == null) {
+                user = new UserData();
+            } else {
+                user.destroy();
+            }
             user.setLogin(recordset.getString("login"));
             user.setMail(recordset.getString("email"));
             user.setRole(recordset.getString("role"));
@@ -68,7 +70,7 @@ public class ModelUserData{
         return user;
     }
 
-    public chUserData setchUserData(String login) throws SQLException {
+    public UserData setchUserData(String login) throws SQLException {
         //if (modelUserDataList.size() != 0) modelUserDataList.clear();
 
         db.checkConn();
@@ -76,8 +78,11 @@ public class ModelUserData{
         ResultSet recordset = db.Recordset("SELECT login, email, role, isActive FROM " + userTable + " WHERE login = '" + login + "'");
         while (recordset.next()) {
 
-            if (chUser == null) chUser = chUserData.getInstance();
-            chUser.destroy();
+            if (chUser == null) {
+                chUser = new UserData();
+            } else {
+                chUser.destroy();
+            }
             chUser.setLogin(recordset.getString("login"));
             chUser.setRole(recordset.getString("role"));
             chUser.setActive(recordset.getInt("isActive"));
@@ -92,7 +97,7 @@ public class ModelUserData{
         return chUser;
     }
 
-    public chUserData resetPass (String login) throws SQLException, MessagingException {
+    public UserData resetPass (String login) throws SQLException, MessagingException {
 
         String mail = null;
         db.checkConn();
@@ -115,8 +120,11 @@ public class ModelUserData{
 
         pass.delete(0,pass.length()); pass = null;
 
-        if (chUser == null) chUser = chUserData.getInstance();
-        chUser.destroy();
+        if (chUser == null) {
+            chUser = new UserData();
+        } else {
+            chUser.destroy();
+        }
         chUser.setMail(mail);
 
         return chUser;
@@ -151,7 +159,7 @@ public class ModelUserData{
         return false;
     }
 
-    public UserData addUser (String login, String role) throws SQLException, MessagingException {
+    public String addUser (String login, String role) throws SQLException, MessagingException {
 
         String mail = null;
         db.checkConn();
@@ -177,13 +185,9 @@ public class ModelUserData{
 
         this.SendHTMLEmail(props.getEMail(), mail,"Пароль для входа",pass.toString(), props.getMailLogin(), props.getMailPass());
 
-        pass.delete(0,pass.length()); pass = null;
+        pass.delete(0,pass.length());
 
-        if (user == null) user = UserData.getInstance();
-        user.destroy();
-        user.setMail(mail);
-
-        return user;
+        return mail;
     }
 
     private void SendHTMLEmail (String from, String to, String subj,String HTMLmess, String login, String pass) throws MessagingException {

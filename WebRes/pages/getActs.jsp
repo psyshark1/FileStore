@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-    <jsp:include page="/index.jsp"/>
+    <jsp:include page="../index.jsp"/>
     <div class="autoz">
         <div class="autoz-form">
             <p>Получить акты</p>

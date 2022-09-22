@@ -25,6 +25,10 @@ public class appUtils {
         return (UserData) session.getAttribute("loginedUser");
     }
 
+    public static void delLoginedUser(HttpSession session) {
+        session.removeAttribute("loginedUser");
+    }
+
     public static int storeRedirectAfterLoginUrl(HttpSession session, String requestUri) {
         Integer id = uri_id_map.get(requestUri);
 

@@ -73,9 +73,9 @@ public class LoginServlet extends HttpServlet {
 
                     }else{
 
-                        UserData userAccount = mdl.addUser(NewUserName,"user");
+                        String mail = mdl.addUser(NewUserName,"user");
 
-                        request.setAttribute("checkLogin", "Пароль выслан на почту " + userAccount.getMail());
+                        request.setAttribute("checkLogin", "Пароль выслан на почту " + mail);
 
                         RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/pages/login.jsp");
 

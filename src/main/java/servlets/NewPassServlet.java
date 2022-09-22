@@ -1,6 +1,6 @@
 package servlets;
 
-import entity.chUserData;
+import entity.UserData;
 import model.ModelUserData;
 
 import javax.mail.MessagingException;
@@ -51,7 +51,7 @@ public class NewPassServlet extends HttpServlet {
 
                 if (mdl.checkLogin(userName,false)) {
 
-                    chUserData userAccount = mdl.resetPass(userName);
+                    UserData userAccount = mdl.resetPass(userName);
                     setMessage(request,response,"Пароль выслан на почту " + userAccount.getMail());
 
                 }else{
