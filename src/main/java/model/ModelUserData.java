@@ -70,7 +70,7 @@ public class ModelUserData{
         return user;
     }
 
-    public UserData setchUserData(String login) throws SQLException {
+    public UserData setUserData(String login) throws SQLException {
         //if (modelUserDataList.size() != 0) modelUserDataList.clear();
 
         db.checkConn();

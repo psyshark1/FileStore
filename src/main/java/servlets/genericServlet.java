@@ -10,7 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
 import java.nio.file.Files;
@@ -147,7 +150,7 @@ public class genericServlet extends HttpServlet {
         byte[] bin = new byte[size];
         zipis.read(bin);
         zipis.close();
-        //удалене файла с диска
+
         Files.delete(Paths.get(temp_zipname.toString()));
 
         temp_zipname.delete(0,temp_zipname.length());
@@ -165,7 +168,6 @@ public class genericServlet extends HttpServlet {
         response.getOutputStream().flush();
         response.getOutputStream().close();
         doGet(request, response);
-        return;
     }
 
     private boolean isValidDate (String value, String datePattern){

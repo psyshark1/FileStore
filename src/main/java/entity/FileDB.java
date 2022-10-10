@@ -9,8 +9,8 @@ public class FileDB {
     /*
     * Модель выгружаемых из БД файлов
     * */
-    public Blob content;
-    public String fname;
+    private Blob content;
+    private String fname;
 
     public FileDB(){}
 

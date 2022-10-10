@@ -15,7 +15,7 @@ public class Dbconn {
     private static Statement statmt;
     private ResultSet rst;
 
-    public Dbconn() {
+    private Dbconn() {
         //Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
     }
 

@@ -46,7 +46,7 @@ public class forManagerServlet extends HttpServlet {
             try {
                 assert mdl != null;
                 if (mdl.checkLogin(userName, false)) {
-                    UserData changeUser = mdl.setchUserData(userName);
+                    UserData changeUser = mdl.setUserData(userName);
 
                     request.setAttribute("changeUser",changeUser);
 
